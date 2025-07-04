@@ -3,6 +3,7 @@ Bundle-SymbolicName: au.com.permeance.liferay.scripting
 Bundle-Version: ${project.version}
 DynamicImport-Package: *
 -contract: JavaPortlet
+-includeresource: commons-fileupload.jar=commons-fileupload-*.jar;lib:=true
 -jsp: *.jsp,*.jspf
 -plugin.bundle: com.liferay.ant.bnd.resource.bundle.ResourceBundleLoaderAnalyzerPlugin
 -plugin.jsp: com.liferay.ant.bnd.jsp.JspAnalyzerPlugin

@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>au.com.permeance.liferay</groupId>
 	<artifactId>liferay-scripting-helper-portlet</artifactId>
-	<version>7.3.0.2-SNAPSHOT</version>
+	<version>7.4.0.0-SNAPSHOT</version>
 	<developers>
 		<developer>
 			<id>chun-ho</id>
@@ -38,6 +38,15 @@
 			</roles>
 			<timezone>+8</timezone>
 		</developer>
+		<developer>
+			<id>tim-telcik</id>
+			<name>Tim Telcik</name>
+			<email>telcik@gmail.com</email>
+			<roles>
+				<role>Project developer</role>
+			</roles>
+			<timezone>+8</timezone>
+		</developer>
 	</developers>
 	<scm>
 		<connection>scm:git:https://github.com/permeance/liferay-scripting-helper.git</connection>
@@ -57,19 +66,20 @@
 			<url>https://repo.permeance.com.au/repository/internal/</url>
 		</repository>
 	</distributionManagement>
-<properties>
-		<commons-fileupload.version>1.3.3</commons-fileupload.version>
+	<properties>
+		<!-- see LIFERAY_PORTAL_SRC/modules/modules.properties" -->
+		<commons-fileupload.version>1.5</commons-fileupload.version>
 		<javax.portlet-api.version>3.0.1</javax.portlet-api.version>
 		<javax.servlet-api.version>3.0.1</javax.servlet-api.version>
 		<javax.servlet.jstl.version>1.2</javax.servlet.jstl.version>
 		<jsp.api.version>2.2</jsp.api.version>
 		<jstl.version>1.2</jstl.version>
-		<liferay.application.list.api.version>6.0.0</liferay.application.list.api.version>
-		<liferay.petra.string.version>4.0.0</liferay.petra.string.version>
-		<liferay.portal.kernel.version>9.0.0</liferay.portal.kernel.version>
-		<liferay.util.bridges.version>7.0.0</liferay.util.bridges.version>
-		<liferay.util.java.version>5.0.0</liferay.util.java.version>
-		<liferay.util.taglib.version>5.0.0</liferay.util.taglib.version>
+		<liferay.application.list.api.version>13.1.3</liferay.application.list.api.version>
+		<liferay.petra.string.version>5.3.6</liferay.petra.string.version>
+		<liferay.portal.kernel.version>156.0.0</liferay.portal.kernel.version>
+		<liferay.util.bridges.version>10.0.4</liferay.util.bridges.version>
+		<liferay.util.java.version>20.0.1</liferay.util.java.version>
+		<liferay.util.taglib.version>25.3.4</liferay.util.taglib.version>
 		<commons-io.version>2.6</commons-io.version>
 		<commons-lang.version>2.6</commons-lang.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -103,7 +113,7 @@
 			<groupId>commons-fileupload</groupId>
 			<artifactId>commons-fileupload</artifactId>
 			<version>${commons-fileupload.version}</version>
-			<scope>provided</scope>
+			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>javax.portlet</groupId>
@@ -130,14 +140,13 @@
 		</dependency>
 		<dependency>
 			<groupId>org.osgi</groupId>
-			<artifactId>org.osgi.compendium</artifactId>
-			<version>5.0.0</version>
-			<scope>provided</scope>
+			<artifactId>osgi.cmpn</artifactId>
+			<version>7.0.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.osgi</groupId>
 			<artifactId>org.osgi.service.component.annotations</artifactId>
-			<version>1.3.0</version>
+			<version>1.5.1</version>
 			<scope>provided</scope>
 		</dependency>
 	</dependencies>
@@ -169,7 +178,7 @@
 			<plugin>
 				<groupId>biz.aQute.bnd</groupId>
 				<artifactId>bnd-maven-plugin</artifactId>
-				<version>3.5.0</version>
+				<version>7.1.0</version>
 				<executions>
 					<execution>
 						<id>default-bnd-process</id>
@@ -182,12 +191,12 @@
 					<dependency>
 						<groupId>biz.aQute.bnd</groupId>
 						<artifactId>biz.aQute.bndlib</artifactId>
-						<version>3.5.0</version>
+						<version>7.1.0</version>
 					</dependency>
 					<dependency>
 						<groupId>com.liferay</groupId>
 						<artifactId>com.liferay.ant.bnd</artifactId>
-						<version>2.0.52</version>
+						<version>3.2.16</version>
 					</dependency>
 				</dependencies>
 			</plugin>

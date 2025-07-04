@@ -31,7 +31,6 @@ import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.PortalUtil;
-import com.liferay.portal.kernel.util.UnsyncPrintWriterPool;
 import com.liferay.portal.kernel.util.WebKeys;
 
 import java.io.ByteArrayOutputStream;
@@ -258,7 +257,7 @@ public class ScriptingHelperPortlet extends MVCPortlet {
 
 				UnsyncByteArrayOutputStream unsyncByteArrayOutputStream = new UnsyncByteArrayOutputStream();
 
-				UnsyncPrintWriter unsyncPrintWriter = UnsyncPrintWriterPool.borrow(unsyncByteArrayOutputStream);
+				UnsyncPrintWriter unsyncPrintWriter = new UnsyncPrintWriter(unsyncByteArrayOutputStream);
 
 				portletObjects.put("out", unsyncPrintWriter);
 				_log.info("Executing script");

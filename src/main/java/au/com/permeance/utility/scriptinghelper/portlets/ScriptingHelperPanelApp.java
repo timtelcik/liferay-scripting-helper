@@ -22,13 +22,19 @@ import com.liferay.portal.kernel.model.Portlet;
 public class ScriptingHelperPanelApp extends BasePanelApp {
 
 	@Override
+	public Portlet getPortlet() {
+		return _portlet;
+	}
+
+	@Override
 	public String getPortletId() {
 		return PORTLET_ID;
 	}
 
-	@Override
-	@Reference(target = "(javax.portlet.name=" + PORTLET_ID + ")", unbind = "-")
-	public void setPortlet(final Portlet portlet) {
-		super.setPortlet(portlet);
-	}
+	@Reference(
+		target = "(javax.portlet.name=" + PORTLET_ID + ")",
+		unbind = "-"
+	)
+	private Portlet _portlet;
+
 }

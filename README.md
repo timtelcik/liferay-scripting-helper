@@ -4,6 +4,7 @@ The *Scripting Helper* is an improved interface for administrators to run Groovy
 
 ## Supported products
 
+* Liferay Portal 7.4
 * Liferay DXP 7.3
 * Liferay DXP 7.2
 * Liferay DXP 7.1
