@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- @see "https://logging.apache.org/log4j/2.12.x/manual/configuration.html#XML" -->
+<Configuration status="debug" strict="true">
+	<Loggers>
+		<Logger level="INFO" name="au.com.permeance.utility.scriptinghelper" />
+	</Loggers>
+</Configuration>
