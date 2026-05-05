@@ -4,8 +4,8 @@ import com.liferay.portal.kernel.language.UTF8Control;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Deactivate;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 
 import java.util.Enumeration;
 import java.util.ResourceBundle;
@@ -20,7 +20,7 @@ import java.util.ResourceBundle;
 )
 public class ScriptingHelperResourceBundle extends ResourceBundle {
 
-   private static final Logger log = LoggerFactory.getLogger(ScriptingHelperResourceBundle.class);
+   private static Log _log = LogFactoryUtil.getLog(ScriptingHelperResourceBundle.class);
 
    private final ResourceBundle resourceBundle;
 
@@ -30,12 +30,12 @@ public class ScriptingHelperResourceBundle extends ResourceBundle {
 
    @Activate
    public void activate() {
-      log.info("Scripting Helper resource bundle activated: {}", this.resourceBundle.getBaseBundleName());
+      _log.info("Scripting Helper resource bundle activated: " + this.resourceBundle.getBaseBundleName());
    }
 
    @Deactivate
    public void deactivate() {
-      log.info("Scripting Helper resource bundle deactivated: {}", this.resourceBundle.getBaseBundleName());
+      _log.info("Scripting Helper resource bundle deactivated: " + this.resourceBundle.getBaseBundleName());
    }
 
    public Enumeration<String> getKeys() {

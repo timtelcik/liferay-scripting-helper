@@ -4,7 +4,8 @@ The *Scripting Helper* is an improved interface for administrators to run Groovy
 
 ## Supported products
 
-* Liferay Portal 7.4
+* Liferay DXP 7.4.13 (2026.Q1.5)
+* Liferay Portal 7.4.3 GA132 (2025.Q1)
 * Liferay DXP 7.3
 * Liferay DXP 7.2
 * Liferay DXP 7.1
@@ -18,11 +19,11 @@ Administrators will see a new *Scripting Helper* option in the Control Panel men
 
 ![Scripting Helper](/docs/images/scripting-helper-7.3-menu.png "Scripting Helper")
 
-The *Scripting Helper* allows you to run a Groovy script, see the output or errors. You can then save multiple scripts and export the saved scripts as a zip file to import into another Liferay installation.
+The *Scripting Helper* allows you to run a Groovy script, see the output or errors. You can then save multiple scripts and export the saved scripts as a ZIP file to import into another Liferay Portal/DXP installation.
 
 ![Scripting Helper](/docs/images/scripting-helper-7.3-portlet.png "Scripting Helper")
 
-The [codemirror](http://codemirror.net) library is utilised as the editor and supports a range of languages and editor themes.
+The [CodeMirror](http://codemirror.net) library is utilised as the editor and supports a range of languages and editor themes.
 
 
 ## Downloads
@@ -32,26 +33,73 @@ Download the *Scripting Helper* from the [Liferay Marketplace](https://www.lifer
 
 ## Installation
 
-Copy the file `Scripting Helper.lpkg` package to the `deploy` folder of your installation.
+Copy the file `Scripting Helper.lpkg` package to the `deploy` folder of your Liferay Portal/DXP installation.
 
 
-## Building
+## Dependencies
 
-Step 1. Check out the source from GitHub:
+* JDK 21+
+* Maven 3.9+
+* Gradle 3.9+ and Liferay Workspace
 
-    % git clone https://github.com/campfire-digital-services/liferay-scripting-helper.git
 
-Step 2. Build and package the module:
+## Build and Package
 
-    % mvn -U clean package
+* NOTE: The project can be built from source code using Maven or Gradle with a Liferay Workspace.
 
-This will create a package called `liferay-scripting-helper-portlet.jar` in the `target` tolder.
+## Build and Package using Maven
 
-*Note: You will require JDK 8+ and Maven 3.6+.*
+### Step 1. Check out source code from GitHub to work folder
+
+e.g.
+
+```bash
+% cd <YOUR_WORK_FOLDER>
+
+% git clone https://github.com/campfire-digital-services/liferay-scripting-helper.git
+```
+
+### Step 2. Build and package the module
+
+e.g.
+
+```bash
+% cd <YOUR_WORK_FOLDER>/liferay-scripting-helper
+
+% mvn -U clean package
+```
+
+* NOTE: This will create a package called `liferay-scripting-helper-portlet.jar` in the `target` folder.
+
+
+## Build and Package using Gradle
+
+### Step 1. Check out source code from GitHub to Liferay Workspace
+
+e.g.
+
+```bash
+% cd <YOUR_LIFERAY_WORKSPACE>/modules
+
+% git clone https://github.com/campfire-digital-services/liferay-scripting-helper.git
+```
+
+### Step 2. Build and package
+
+e.g.
+
+```bash
+% cd <YOUR_LIFERAY_WORKSPACE>/modules/liferay-scripting-helper
+
+% ../../gradlew clean build
+```
+
+* NOTE: This build step create a package called `xxx.liferay.scripting.jar` in the `build/libs` folder.
+
 
 ## Licence
 
-This application is released under the GNU Public License version 3.0 (GPL). The codemirror library is also included in the package and comes under a MIT-style license. 
+This application is released under the GNU Public License version 3.0 (GPL). The codemirror library is also included in the package and comes under a MIT-style license.
 
 
 ## Project team
@@ -59,5 +107,4 @@ This application is released under the GNU Public License version 3.0 (GPL). The
 * Chun Ho - chun.ho@campfire.com.au
 * Terry Mueller - terry.mueller@campfire.com.au
 * Flavius Daca - flavius.daca@campfire.com.au
-
-
+* Tim Telcik - telcik@gmail.com

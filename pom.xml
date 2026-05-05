@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>au.com.permeance.liferay</groupId>
 	<artifactId>liferay-scripting-helper-portlet</artifactId>
-	<version>7.4.0.0-SNAPSHOT</version>
+	<version>7.4.13.0</version>
 	<developers>
 		<developer>
 			<id>chun-ho</id>
@@ -53,7 +53,7 @@
 		<developerConnection>scm:git:https://github.com/permeance/liferay-scripting-helper.git</developerConnection>
 		<url>https://github.com/permeance/liferay-scripting-helper</url>
 	  <tag>HEAD</tag>
-  </scm>
+	</scm>
 	<distributionManagement>
 		<snapshotRepository>
 			<id>permeance-snapshots</id>
@@ -67,24 +67,60 @@
 		</repository>
 	</distributionManagement>
 	<properties>
-		<!-- see LIFERAY_PORTAL_SRC/modules/modules.properties" -->
-		<commons-fileupload.version>1.5</commons-fileupload.version>
-		<javax.portlet-api.version>3.0.1</javax.portlet-api.version>
-		<javax.servlet-api.version>3.0.1</javax.servlet-api.version>
-		<javax.servlet.jstl.version>1.2</javax.servlet.jstl.version>
-		<javax.ws.rs-api.version>2.1.1</javax.ws.rs-api.version>
+		<!-- see LIFERAY_PORTAL_SRC/modules/modules.properties -->
+		<biz.aQute.bndlib.version>7.2.3</biz.aQute.bndlib.version>
+		<bnd-maven-plugin.version>7.2.3</bnd-maven-plugin.version>
+		<commons-io.version>2.22.0</commons-io.version>
+		<commons-fileupload2.version>2.0.0-M5</commons-fileupload2.version>
+		<commons-fileupload2-core.version>${commons-fileupload2.version}</commons-fileupload2-core.version>
+		<commons-fileupload2-jakarta-servlet6.version>${commons-fileupload2.version}</commons-fileupload2-jakarta-servlet6.version>
+		<commons-fileupload2-portlet.version>${commons-fileupload2.version}</commons-fileupload2-portlet.version>
+		<jakarta.portlet-api.version>4.0.0</jakarta.portlet-api.version>
+		<jakarta.servlet-api.version>6.0.0</jakarta.servlet-api.version>
+		<jakarta.servlet.jsp.jstl-api.version>3.0.2</jakarta.servlet.jsp.jstl-api.version>
+		<jakarta.servlet.jstl.version>3.0.1</jakarta.servlet.jstl.version>
+		<jakarta.ws.rs-api.version>4.0.0</jakarta.ws.rs-api.version>
 		<jstl.version>1.2</jstl.version>
-		<liferay.application.list.api.version>13.1.3</liferay.application.list.api.version>
-		<liferay.petra.string.version>5.3.6</liferay.petra.string.version>
-		<liferay.portal.kernel.version>156.0.0</liferay.portal.kernel.version>
-		<liferay.util.bridges.version>10.0.4</liferay.util.bridges.version>
-		<liferay.util.java.version>20.0.1</liferay.util.java.version>
-		<liferay.util.taglib.version>25.3.4</liferay.util.taglib.version>
+		<liferay.ant.bnd.version>3.2.16</liferay.ant.bnd.version>
+		<liferay.application.list.api.version>14.0.1</liferay.application.list.api.version>
+		<liferay.jakarta.portlet-api.version>4.0.0</liferay.jakarta.portlet-api.version>		
+		<liferay.petra.string.version>5.3.7</liferay.petra.string.version>
+		<liferay.portal.kernel.version>181.1.0</liferay.portal.kernel.version>
+		<liferay.util.bridges.version>11.0.0</liferay.util.bridges.version>
+		<liferay.util.java.version>22.0.2</liferay.util.java.version>
+		<liferay.util.taglib.version>28.0.1</liferay.util.taglib.version>
+		<maven-compiler-plugin.version>3.15.0</maven-compiler-plugin.version>
+		<maven-jar-plugin.version>3.5.0</maven-jar-plugin.version>
 		<osgi.cmpn.version>7.0.0</osgi.cmpn.version>
 		<org.osgi.service.component.annotations.version>1.3.0</org.osgi.service.component.annotations.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<slf4j.version>1.7.26</slf4j.version>
+		<slf4j.version>2.0.17</slf4j.version>
 	</properties>
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>com.liferay.portal</groupId>
+				<artifactId>release.dxp.bom.third.party</artifactId>
+				<version>2026.q1.5</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<groupId>com.liferay.portal</groupId>
+				<artifactId>release.dxp.bom</artifactId>
+				<version>2026.q1.5</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<groupId>com.liferay.portal</groupId>
+				<artifactId>release.dxp.bom.compile.only</artifactId>
+				<version>2026.q1.5</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 	<dependencies>
 		<dependency>
 			<groupId>com.liferay</groupId>
@@ -99,6 +135,12 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
+			<groupId>com.liferay.jakarta.portlet</groupId>
+			<artifactId>com.liferay.jakarta.portlet-api</artifactId>
+			<version>${liferay.jakarta.portlet-api.version}</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
 			<groupId>com.liferay.portal</groupId>
 			<artifactId>com.liferay.portal.kernel</artifactId>
 			<version>${liferay.portal.kernel.version}</version>
@@ -111,32 +153,33 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>commons-fileupload</groupId>
-			<artifactId>commons-fileupload</artifactId>
-			<version>${commons-fileupload.version}</version>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-fileupload2-core</artifactId>
+			<version>${commons-fileupload2-core.version}</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
-			<groupId>javax.portlet</groupId>
-			<artifactId>portlet-api</artifactId>
-			<version>${javax.portlet-api.version}</version>
-			<scope>provided</scope>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-fileupload2-jakarta-servlet6</artifactId>
+			<version>${commons-fileupload2-jakarta-servlet6.version}</version>
+			<scope>compile</scope>
 		</dependency>
 		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>javax.servlet-api</artifactId>
-			<version>${javax.servlet-api.version}</version>
-			<scope>provided</scope>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-fileupload2-portlet</artifactId>
+			<version>${commons-fileupload2-portlet.version}</version>
+			<scope>compile</scope>
 		</dependency>
 		<dependency>
-			<groupId>javax.ws.rs</groupId>
-			<artifactId>javax.ws.rs-api</artifactId>
-			<version>${javax.ws.rs-api.version}</version>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>${commons-io.version}</version>
+			<scope>compile</scope>
 		</dependency>
 		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>jstl</artifactId>
-			<version>${javax.servlet.jstl.version}</version>
+			<groupId>jakarta.servlet</groupId>
+			<artifactId>jakarta.servlet-api</artifactId>
+			<version>${jakarta.servlet-api.version}</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
@@ -170,16 +213,16 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.1</version>
+				<version>${maven-compiler-plugin.version}</version>
 				<configuration>
-					<source>17</source>
-					<target>17</target>
+					<source>21</source>
+					<target>21</target>
 				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
-				<version>3.1.0</version>
+				<version>${maven-jar-plugin.version}</version>
 				<configuration>
 					<archive>
 						<manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
@@ -192,7 +235,7 @@
 			<plugin>
 				<groupId>biz.aQute.bnd</groupId>
 				<artifactId>bnd-maven-plugin</artifactId>
-				<version>7.1.0</version>
+				<version>${bnd-maven-plugin.version}</version>
 				<executions>
 					<execution>
 						<id>default-bnd-process</id>
@@ -205,12 +248,12 @@
 					<dependency>
 						<groupId>biz.aQute.bnd</groupId>
 						<artifactId>biz.aQute.bndlib</artifactId>
-						<version>7.1.0</version>
+						<version>${biz.aQute.bndlib.version}</version>
 					</dependency>
 					<dependency>
 						<groupId>com.liferay</groupId>
 						<artifactId>com.liferay.ant.bnd</artifactId>
-						<version>3.2.16</version>
+						<version>${liferay.ant.bnd.version}</version>
 					</dependency>
 				</dependencies>
 			</plugin>

@@ -26,21 +26,21 @@
 
 	<portlet:actionURL name="execute" var="actionUrl" />
 	<portlet:resourceURL var="resourceUrl" />
-	
+
 	<%
 	    String language = ParamUtil.getString(renderRequest, "language", "groovy");
 	    String script = ParamUtil.getString(renderRequest, "script", "");
 	    if(script.length() == 0) script = "// ### Groovy Sample ###\n\nnumber = com.liferay.portal.kernel.service.UserLocalServiceUtil.getUsersCount();\n\nout.println(number);";
 		String scriptOutput = ParamUtil.getString(renderRequest, "script_output", "");
 		String scriptError = ParamUtil.getString(renderRequest, "script_trace", "");
-		
+
 		java.util.List<String> savedscripts = (java.util.List<String>)renderRequest.getAttribute("savedscripts");
-	
+
 		String requestSuccess = ParamUtil.getString(renderRequest, "requestsuccess", "none");
-	
+
 	    String themesel = ParamUtil.getString(renderRequest, "themesel", "vibrant-ink");
 	    String editorheight = ParamUtil.getString(renderRequest, "editorheight", "400");
-			
+
 		java.util.List<String> cmThemes = new java.util.ArrayList<String>();
 		cmThemes.add("default");
 		cmThemes.add("ambiance");
@@ -56,13 +56,13 @@
 		cmThemes.add("rubyblue");
 		cmThemes.add("vibrant-ink");
 		cmThemes.add("xq-dark");
-		
+
 	%>
 	<liferay-ui:success key="success"
 		message="ui-request-processed-successfully" />
 	<liferay-ui:error key="error"
 		message="ui-request-processed-error" />
-	
+
 	<aui:form action="${actionUrl}" enctype="multipart/form-data" method="post" name="fm">
 	<div class="card-horizontal main-content-card">
 		<div class="panel-group">
@@ -74,35 +74,35 @@
 					<aui:input type="hidden" name="editorheight" value="<%=editorheight %>" />
 					<aui:fieldset>
 						<aui:select name="language" onChange='pickCodeMirrorMode();'>
-				
+
 							<%
 							    for (String supportedLanguage : ScriptingUtil.getSupportedLanguages()) {
 							%>
-				
+
 							<aui:option
 								label="<%= TextFormatter.format(supportedLanguage, TextFormatter.J) %>"
 								selected="<%= supportedLanguage.equals(language) %>"
 								value="<%= supportedLanguage %>" />
-				
+
 							<%
 							    }
 							%>
 						</aui:select>
-				
+
 				    <style type="text/css">
 				      .CodeMirror {border: 1px solid black; font-size:13px; width: 100%}
 				    </style>
-				
+
 						<aui:input id="codearea" cssClass="lfr-textarea-container" name="script"
 							type="textarea" value="<%= script %>" />
-							
+
 							<script type="text/javascript">
 							var editor = CodeMirror.fromTextArea(document.getElementById('<%=renderResponse.getNamespace() %>codearea'), {
 							    tabSize: 3,
 							    lineWrapping: true,
 							    lineNumbers: true
 							});
-							
+
 							function pickCodeMirrorMode() {
 							    var lang = document.<portlet:namespace />fm.<portlet:namespace />language.value;
 							    var sellang = 'clike';
@@ -113,23 +113,23 @@
 							    if(lang == 'ruby') sellang = 'ruby';
 								editor.setOption('mode', sellang);
 							}
-				
+
 							function pickCodeMirrorTheme() {
 							    var theme = document.<portlet:namespace />fm.<portlet:namespace />themesel.value;
 								editor.setOption('theme', theme);
 							}
-							
-							
+
+
 							var editorheight = <%=editorheight %>;
 							editor.getScrollerElement().style.height=editorheight + 'px';
 							//editor.getScrollerElement().style.width='500px';
 							pickCodeMirrorMode();
-							
+
 							function editorAutoformat() {
 								CodeMirror.commands["selectAll"](editor);
 								editor.autoFormatRange(editor.getCursor(true), editor.getCursor(false));
 							}
-										
+
 							function editorExtendDown() {
 								editorheight = editorheight + 200;
 								editor.getScrollerElement().style.height=editorheight + 'px';
@@ -142,69 +142,69 @@
 								document.<portlet:namespace />fm.<portlet:namespace />editorheight.value = editorheight;
 							}
 							</script>
-							
+
 							<a href="#" onclick="editorAutoformat(); return false;"><liferay-ui:message key="autoformat"/></a>&nbsp;&nbsp;&nbsp;&nbsp;
 							<a href="#" onclick="editorExtendDown(); return false;"><liferay-ui:message key="extend-down"/></a>&nbsp;&nbsp;
 							<a href="#" onclick="editorExtendUp(); return false;"><liferay-ui:message key="extend-up"/></a>&nbsp;&nbsp;&nbsp;&nbsp;
-							
+
 							<liferay-ui:message key="editor-theme:"/> <select name="<portlet:namespace />themesel" onChange='pickCodeMirrorTheme();'>
 							<%
 							    for (String cmTheme : cmThemes) {
-							%>			
+							%>
 							<option <% if(themesel.equals(cmTheme)) { %>selected<% } %>
 								value="<%=cmTheme %>" ><%=cmTheme %></option>
 							<%
 							    }
-							%>				
-							
+							%>
+
 							</select>
 							<script type="text/javascript">
 							pickCodeMirrorTheme();
 							</script>
-							
+
 					</aui:fieldset>
-				
+
 					<aui:button-row>
 				<%
 				String executeButtonScript = "return " + renderResponse.getNamespace() + "execute();";
 				String saveButtonScript = "return " + renderResponse.getNamespace() + "save();";
-				%>	
-					
+				%>
+
 						<aui:button onClick="<%= executeButtonScript %>" type="submit" value="execute"/>
 						<aui:button onClick="<%= saveButtonScript %>" type="submit" value="save" primary="false"/>
 					</aui:button-row>
 				</td>
 				<td align="left" valign="top" width="35px">
 				&nbsp;&nbsp;&nbsp;
-				</td>	
+				</td>
 				<td align="left" valign="top">
-				
+
 				<aui:fieldset>
 						<aui:select name="savedscript" size="10" label="saved-scripts">
-				
+
 							<%
 								if(savedscripts != null) {
 							    for (String savedscript : savedscripts) {
 							%>
-				
+
 							<aui:option
 								selected="false"
 								value="<%= savedscript %>" ><%= savedscript %></aui:option>
-				
+
 							<%
 							    }
 								}
 							%>
 						</aui:select>
 					</aui:fieldset>
-				
+
 				<%
 				String saveintoButtonScript = "return " + renderResponse.getNamespace() + "saveinto();";
 				String loadfromButtonScript = "return " + renderResponse.getNamespace() + "loadfrom();";
 				String deleteButtonScript = "return " + renderResponse.getNamespace() + "delete();";
 				String importButtonScript = "return " + renderResponse.getNamespace() + "import();";
-				%>	
-				
+				%>
+
 					<aui:button-row>
 						<aui:button onClick="<%= loadfromButtonScript %>" type="submit" value="load-from" primary="false"/>
 						<aui:button onClick="<%= saveintoButtonScript %>" type="submit" value="save-into" primary="false"/>
@@ -217,33 +217,33 @@
 					</aui:button-row>
 					<aui:button-row>
 						<aui:input name="importfile" type="file" style="width: auto;" label="import-zip-file">
-						</aui:input>		
+						</aui:input>
 						<aui:button onClick="<%= importButtonScript %>" type="submit" value="import-zip" primary="false" />
 					</aui:button-row>
-				</td>	
+				</td>
 				</tr>
 				</table>
 			</div>
 		</div>
 	</div>
 			<b><liferay-ui:message key="output:"/></b>
-	
+
 			<pre><c:out value="<%=scriptOutput%>" /></pre>
 			<br />
 			<br />
-			
+
 	<%
 		if(scriptError.length() > 0) {
-	%>		
+	%>
 			<b><liferay-ui:message key="error:"/></b>
-	
+
 			<pre><c:out value="<%=scriptError%>" /></pre>
 			<br />
 			<br />
 	<%
 		}
-	%>		
-	
+	%>
+
 	</aui:form>
 
 		<aui:script>
@@ -257,12 +257,12 @@
 						return true;
 					} else {
 						return false;
-					}		
-				} 
-				if(confirm('<liferay-ui:message key="overwrite-existing-saved-script"/> \'' + scriptname + '\'?')) { 
-					document.<portlet:namespace />fm.<portlet:namespace />cmd.value = 'saveinto'; 
-					return true; 
-				} else { 
+					}
+				}
+				if(confirm('<liferay-ui:message key="overwrite-existing-saved-script"/> \'' + scriptname + '\'?')) {
+					document.<portlet:namespace />fm.<portlet:namespace />cmd.value = 'saveinto';
+					return true;
+				} else {
 					return false;
 				}
 			}
@@ -272,11 +272,11 @@
 				if(scriptname == null || scriptname == '') {
 					alert('<liferay-ui:message key="please-select-saved-script-to-load-from"/>');
 					return false;
-				} 
-				if(confirm('<liferay-ui:message key="discard-any-unsaved-changes-and-load-script?"/>')) { 
-					document.<portlet:namespace />fm.<portlet:namespace />cmd.value = 'loadfrom'; 
-					return true; 
-				} else { 
+				}
+				if(confirm('<liferay-ui:message key="discard-any-unsaved-changes-and-load-script?"/>')) {
+					document.<portlet:namespace />fm.<portlet:namespace />cmd.value = 'loadfrom';
+					return true;
+				} else {
 					return false;
 				}
 			}
@@ -286,11 +286,11 @@
 				if(scriptname == null || scriptname == '') {
 					alert('<liferay-ui:message key="please-select-saved-script-to-delete"/>');
 					return false;
-				} 
-				if(confirm('<liferay-ui:message key="delete-saved-script"/> \'' + scriptname + '\'?')) { 
-					document.<portlet:namespace />fm.<portlet:namespace />cmd.value = 'delete'; 
-					return true; 
-				} else { 
+				}
+				if(confirm('<liferay-ui:message key="delete-saved-script"/> \'' + scriptname + '\'?')) {
+					document.<portlet:namespace />fm.<portlet:namespace />cmd.value = 'delete';
+					return true;
+				} else {
 					return false;
 				}
 			}
@@ -300,11 +300,11 @@
 				if(filename == null || filename == '') {
 					alert("<liferay-ui:message key="please-select-a-zip-file-to-upload"/>");
 					return false;
-				}			
-				if(confirm('<liferay-ui:message key="import-scripts-from-file?-this-will-overwrite-any-existing-scripts-with-the-same-names"/>')) { 
-					document.<portlet:namespace />fm.<portlet:namespace />cmd.value = 'import'; 
-					return true; 
-				} else { 
+				}
+				if(confirm('<liferay-ui:message key="import-scripts-from-file?-this-will-overwrite-any-existing-scripts-with-the-same-names"/>')) {
+					document.<portlet:namespace />fm.<portlet:namespace />cmd.value = 'import';
+					return true;
+				} else {
 					return false;
 				}
 			}
@@ -314,8 +314,8 @@
 				document.<portlet:namespace />fm.<portlet:namespace />cmd.value = 'execute';
 				return true;
 			}
-		
-		
+
+
 			function <portlet:namespace />save() {
 				var scriptname = prompt('<liferay-ui:message key="enter-new-script-name:"/>', '');
 				if(scriptname != null) {

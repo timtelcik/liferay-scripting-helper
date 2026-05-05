@@ -30,7 +30,7 @@ public class ScriptingHelperPanelApp extends BasePanelApp {
 	}
 
 	@Reference(
-		target = "(javax.portlet.name=" + ScriptingHelperPortlet.PORTLET_ID + ")",
+		target = "(jakarta.portlet.name=" + ScriptingHelperPortlet.PORTLET_ID + ")",
 		unbind = "-"
 	)
 	private Portlet _portlet;

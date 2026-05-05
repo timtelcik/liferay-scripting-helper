@@ -40,6 +40,7 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -50,20 +51,23 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
-import javax.portlet.ActionRequest;
-import javax.portlet.ActionResponse;
-import javax.portlet.Portlet;
-import javax.portlet.PortletException;
-import javax.portlet.PortletPreferences;
-import javax.portlet.PortletRequest;
-import javax.portlet.RenderRequest;
-import javax.portlet.RenderResponse;
-import javax.portlet.ResourceRequest;
-import javax.portlet.ResourceResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.portlet.ActionRequest;
+import jakarta.portlet.ActionResponse;
+import jakarta.portlet.Portlet;
+import jakarta.portlet.PortletException;
+import jakarta.portlet.PortletPreferences;
+import jakarta.portlet.PortletRequest;
+import jakarta.portlet.RenderRequest;
+import jakarta.portlet.RenderResponse;
+import jakarta.portlet.ResourceRequest;
+import jakarta.portlet.ResourceResponse;
 
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.portlet.PortletFileUpload;
+import org.apache.commons.fileupload2.core.DiskFileItem;
+import org.apache.commons.fileupload2.core.DiskFileItemFactory;
+import org.apache.commons.fileupload2.core.FileItem;
+import org.apache.commons.fileupload2.jakarta.servlet6.JakartaServletFileUpload;
+
 import org.osgi.service.component.annotations.Component;
 
 @Component(
@@ -90,22 +94,27 @@ import org.osgi.service.component.annotations.Component;
 			"com.liferay.portlet.header-portlet-css=/codemirror/theme/vibrant-ink.css",
 			"com.liferay.portlet.header-portlet-css=/codemirror/theme/xq-dark.css",
 			"com.liferay.portlet.header-portlet-javascript=/codemirror/codemirror-2.3.5-compressed.js",
-			"javax.portlet.name=" + ScriptingHelperPortlet.PORTLET_ID,
-			"javax.portlet.display-name=Scripting Helper",
-			"javax.portlet.expiration-cache=0",
-			"javax.portlet.init-param.template-path=/",
-			"javax.portlet.init-param.view-template=/view.jsp",
-			"javax.portlet.resource-bundle=content.Language",
-			"javax.portlet.portlet-mode=text/html",
-			"javax.portlet.security-role-ref=administrator"
+			"jakarta.portlet.name=" + ScriptingHelperPortlet.PORTLET_ID,
+			"jakarta.portlet.display-name=Scripting Helper",
+			"jakarta.portlet.expiration-cache=0",
+			"jakarta.portlet.init-param.template-path=/",
+			"jakarta.portlet.init-param.view-template=/view.jsp",
+			"jakarta.portlet.resource-bundle=content.Language",
+			"jakarta.portlet.portlet-mode=text/html",
+			"jakarta.portlet.security-role-ref=administrator",
+			"jakarta.portlet.version=4.0"
 		},
 		service = Portlet.class
 	)
 public class ScriptingHelperPortlet extends MVCPortlet {
-	
+
 	static final String PORTLET_ID = "au_com_permeance_utility_scriptinghelper_portlets_ScriptingHelperPortlet";
 
-	private static Log _log = LogFactoryUtil.getLog(ScriptingHelperPortlet.class);
+	private static final int ONE_MB_IN_BYTES = (1024 * 1024);
+
+	private static final int ONE_HUNDRED_MB_IN_BYTES = (100 * ONE_MB_IN_BYTES);
+
+	private static final Log _log = LogFactoryUtil.getLog(ScriptingHelperPortlet.class);
 
 	@Override
 	public void init() throws PortletException{
@@ -115,7 +124,8 @@ public class ScriptingHelperPortlet extends MVCPortlet {
 	
 	@Override
 	public void doView(RenderRequest renderRequest, RenderResponse renderResponse)
-			throws IOException, PortletException {
+			throws IOException, PortletException
+	{
 		try {
 			sCheckPermissions(renderRequest);
 
@@ -176,8 +186,7 @@ public class ScriptingHelperPortlet extends MVCPortlet {
 				}
 			}
 
-			// ContentType must be set before calling getPortletOutputStream()
-			//  to override with a new type;
+			// ContentType must be set before calling getPortletOutputStream() to override with a new type
 			resourceResponse.setContentType("application/zip");
 			resourceResponse.addProperty(HttpHeaders.CACHE_CONTROL, "max-age=3600, must-revalidate");
 
@@ -190,7 +199,7 @@ public class ScriptingHelperPortlet extends MVCPortlet {
 			for (String key : savedscripts.keySet()) {
 				String value = savedscripts.get(key);
 				zout.putNextEntry(new ZipEntry(key));
-				zout.write(value.getBytes("utf-8"));
+				zout.write(value.getBytes(StandardCharsets.UTF_8.name()));
 			}
 
 		} catch (Exception e) {
@@ -216,14 +225,23 @@ public class ScriptingHelperPortlet extends MVCPortlet {
 			sCheckPermissions(actionRequest);
 
 			String portletId = "_" + PortalUtil.getPortletId(actionRequest) + "_";
+			_log.debug("portletId: " + portletId);
 
-			DiskFileItemFactory factory = new DiskFileItemFactory();
-			factory.setSizeThreshold(100 * 1024 * 1024);
-			PortletFileUpload upload = new PortletFileUpload(factory);
+			HttpServletRequest servletRequest = PortalUtil.getHttpServletRequest(actionRequest);
+			_log.debug("servletRequest: " + servletRequest);
+
+			int uploadThreshold = ONE_HUNDRED_MB_IN_BYTES;
+			_log.debug("uploadThreshold: " + uploadThreshold);
+
+			DiskFileItemFactory factory = DiskFileItemFactory.builder().setThreshold(uploadThreshold).get();
+			_log.debug("factory: " + factory);
+
+			JakartaServletFileUpload<DiskFileItem, DiskFileItemFactory> upload = new JakartaServletFileUpload<>(factory);
+			_log.debug("upload: " + upload);
 
 			FileItem fileUploaded = null;
-			List<FileItem> items = upload.parseRequest(actionRequest);
-			for (FileItem fi : items) {
+			List<DiskFileItem> items = upload.parseRequest(servletRequest);
+			for (DiskFileItem fi : items) {
 				if (fi.isFormField()) {
 					actionRequest.setAttribute(fi.getFieldName(), fi.getString());
 					if (fi.getFieldName().startsWith(portletId)) {
@@ -354,7 +372,7 @@ public class ScriptingHelperPortlet extends MVCPortlet {
 						}
 
 						String lang = resolveLanguage(ext);
-						String imscript = getStreamAsString(zipstream, "utf-8", false);
+						String imscript = getStreamAsString(zipstream, StandardCharsets.UTF_8.name(), false);
 
 						if (imscript != null && imscript.length() > 0) {
 							_log.info("Importing script \"" + filename + "\" of type " + lang);
@@ -385,7 +403,7 @@ public class ScriptingHelperPortlet extends MVCPortlet {
 					}
 				}
 
-				_log.info(fileUploaded.getName());
+				_log.info("Uploaded file " + fileUploaded.getName());
 			}
 			SessionMessages.add(actionRequest, "success");
 		} catch (Exception e) {

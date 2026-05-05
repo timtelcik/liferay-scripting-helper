@@ -1,12 +1,28 @@
 Bundle-Name: liferay-scripting-helper
 Bundle-Description: Liferay Scripting Helper
 Bundle-SymbolicName: au.com.permeance.liferay.scripting
-Bundle-Version: ${project.version}
+Bundle-Version: 1.0.0
 DynamicImport-Package: *
+
+Provide-Capability:\
+	liferay.language.resources;\
+		resource.bundle.base.name="content.Language"
+
+# NOTE: The org.apache.commons.fileupload2 packages are imported via the packaged jar files
+Import-Package: \
+    !javax.portlet,\
+    *
 
 -check: all
 -contract: JavaPortlet
--includeresource: commons-fileupload.jar=commons-fileupload-*.jar;lib:=true
+-fixupmessages: "Classes found in the wrong directory";is:=warning
+
+-includeresource: \
+    lib/commons-fileupload2-core.jar=commons-fileupload2-core-*.jar;lib:=true,\
+    lib/commons-fileupload2-jakarta-servlet6.jar=commons-fileupload2-jakarta-servlet6-*.jar;lib:=true,\
+    lib/commons-fileupload2-portlet.jar=commons-fileupload2-portlet-*.jar;lib:=true,\
+    lib/commons-io.jar=commons-io-*.jar;lib:=true
+
 -jsp: *.jsp,*.jspf
 -metatype: *
 -plugin.bundle: com.liferay.ant.bnd.resource.bundle.ResourceBundleLoaderAnalyzerPlugin
@@ -15,4 +31,3 @@ DynamicImport-Package: *
 -plugin.sass: com.liferay.ant.bnd.sass.SassAnalyzerPlugin
 -sass: *
 -sources: false
-Require-Capability: osgi.contract; filter:="(&(osgi.contract=JavaJAXRS)(version=2))"
