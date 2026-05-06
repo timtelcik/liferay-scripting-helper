@@ -1,14 +1,14 @@
 /**
  * Copyright (C) 2017 Permeance Technologies
- * 
+ *
  * This program is free software: you can redistribute it and/or modify it under the terms of the
  * GNU General Public License as published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
  * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along with this program. If
  * not, see <http://www.gnu.org/licenses/>.
  */
@@ -73,39 +73,39 @@ import org.osgi.service.component.annotations.Component;
 @Component(
 		immediate = true,
 		property = {
-			"com.liferay.portlet.css-class-wrapper=portlet-controlpanel",
-			"com.liferay.portlet.display-category=" + NAME_HIDDEN,
-			"com.liferay.portlet.icon=/scripting-helper.png",
-			"com.liferay.portlet.preferences-company-wide=true",
-			"com.liferay.portlet.instanceable=true",
-			"com.liferay.portlet.instanceable=false",
-			"com.liferay.portlet.render-weight=50",
-			"com.liferay.portlet.header-portlet-css=/codemirror/lib/codemirror.css",
-			"com.liferay.portlet.header-portlet-css=/codemirror/theme/ambiance.css",
-			"com.liferay.portlet.header-portlet-css=/codemirror/theme/blackboard.css",
-			"com.liferay.portlet.header-portlet-css=/codemirror/theme/cobalt.css",
-			"com.liferay.portlet.header-portlet-css=/codemirror/theme/eclipse.css",
-			"com.liferay.portlet.header-portlet-css=/codemirror/theme/elegant.css",
-			"com.liferay.portlet.header-portlet-css=/codemirror/theme/erlang-dark.css",
-			"com.liferay.portlet.header-portlet-css=/codemirror/theme/lesser-dark.css",
-			"com.liferay.portlet.header-portlet-css=/codemirror/theme/neat.css",
-			"com.liferay.portlet.header-portlet-css=/codemirror/theme/night.css",
-			"com.liferay.portlet.header-portlet-css=/codemirror/theme/rubyblue.css",
-			"com.liferay.portlet.header-portlet-css=/codemirror/theme/vibrant-ink.css",
-			"com.liferay.portlet.header-portlet-css=/codemirror/theme/xq-dark.css",
-			"com.liferay.portlet.header-portlet-javascript=/codemirror/codemirror-2.3.5-compressed.js",
-			"jakarta.portlet.name=" + ScriptingHelperPortlet.PORTLET_ID,
-			"jakarta.portlet.display-name=Scripting Helper",
-			"jakarta.portlet.expiration-cache=0",
-			"jakarta.portlet.init-param.template-path=/",
-			"jakarta.portlet.init-param.view-template=/view.jsp",
-			"jakarta.portlet.resource-bundle=content.Language",
-			"jakarta.portlet.portlet-mode=text/html",
-			"jakarta.portlet.security-role-ref=administrator",
-			"jakarta.portlet.version=4.0"
+				"com.liferay.portlet.css-class-wrapper=portlet-controlpanel",
+				"com.liferay.portlet.display-category=" + NAME_HIDDEN,
+				"com.liferay.portlet.icon=/scripting-helper.png",
+				"com.liferay.portlet.preferences-company-wide=true",
+				"com.liferay.portlet.instanceable=true",
+				"com.liferay.portlet.instanceable=false",
+				"com.liferay.portlet.render-weight=50",
+				"com.liferay.portlet.header-portlet-css=/codemirror/lib/codemirror.css",
+				"com.liferay.portlet.header-portlet-css=/codemirror/theme/ambiance.css",
+				"com.liferay.portlet.header-portlet-css=/codemirror/theme/blackboard.css",
+				"com.liferay.portlet.header-portlet-css=/codemirror/theme/cobalt.css",
+				"com.liferay.portlet.header-portlet-css=/codemirror/theme/eclipse.css",
+				"com.liferay.portlet.header-portlet-css=/codemirror/theme/elegant.css",
+				"com.liferay.portlet.header-portlet-css=/codemirror/theme/erlang-dark.css",
+				"com.liferay.portlet.header-portlet-css=/codemirror/theme/lesser-dark.css",
+				"com.liferay.portlet.header-portlet-css=/codemirror/theme/neat.css",
+				"com.liferay.portlet.header-portlet-css=/codemirror/theme/night.css",
+				"com.liferay.portlet.header-portlet-css=/codemirror/theme/rubyblue.css",
+				"com.liferay.portlet.header-portlet-css=/codemirror/theme/vibrant-ink.css",
+				"com.liferay.portlet.header-portlet-css=/codemirror/theme/xq-dark.css",
+				"com.liferay.portlet.header-portlet-javascript=/codemirror/codemirror-2.3.5-compressed.js",
+				"jakarta.portlet.name=" + ScriptingHelperPortlet.PORTLET_ID,
+				"jakarta.portlet.display-name=Scripting Helper",
+				"jakarta.portlet.expiration-cache=0",
+				"jakarta.portlet.init-param.template-path=/",
+				"jakarta.portlet.init-param.view-template=/view.jsp",
+				"jakarta.portlet.resource-bundle=content.Language",
+				"jakarta.portlet.portlet-mode=text/html",
+				"jakarta.portlet.security-role-ref=administrator",
+				"jakarta.portlet.version=4.0"
 		},
 		service = Portlet.class
-	)
+)
 public class ScriptingHelperPortlet extends MVCPortlet {
 
 	static final String PORTLET_ID = "au_com_permeance_utility_scriptinghelper_portlets_ScriptingHelperPortlet";
@@ -121,7 +121,7 @@ public class ScriptingHelperPortlet extends MVCPortlet {
 		super.init();
 		super.copyRequestParameters = false;
 	}
-	
+
 	@Override
 	public void doView(RenderRequest renderRequest, RenderResponse renderResponse)
 			throws IOException, PortletException
@@ -173,7 +173,7 @@ public class ScriptingHelperPortlet extends MVCPortlet {
 		OutputStream out = null;
 		try {
 			sCheckPermissions(resourceRequest);
-			_log.info("Export All As Zip");
+			_log.info("Export all scripts as ZIP bundle");
 
 			Map<String, String> savedscripts = new TreeMap<String, String>();
 			PortletPreferences prefs = resourceRequest.getPreferences();
@@ -183,6 +183,7 @@ public class ScriptingHelperPortlet extends MVCPortlet {
 					String script = prefs.getValue(prefName, "");
 					String lang = prefs.getValue("lang." + scriptName, getDefaultLanguage());
 					savedscripts.put(scriptName + "." + lang, script);
+					_log.info("Exporting script \"" + scriptName + "\" of type " + lang);
 				}
 			}
 
@@ -199,11 +200,11 @@ public class ScriptingHelperPortlet extends MVCPortlet {
 			for (String key : savedscripts.keySet()) {
 				String value = savedscripts.get(key);
 				zout.putNextEntry(new ZipEntry(key));
-				zout.write(value.getBytes(StandardCharsets.UTF_8.name()));
+				zout.write(value.getBytes(StandardCharsets.UTF_8));
 			}
 
 		} catch (Exception e) {
-			_log.error(e);
+			_log.error("Error serving resource: " + e.getMessage(), e);
 		} finally {
 			try {
 				if (zout != null) {
@@ -216,6 +217,7 @@ public class ScriptingHelperPortlet extends MVCPortlet {
 					out.close();
 				}
 			} catch (Exception e) {
+				_log.error("Error closing ZIP output stream: " + e.getMessage(), e);
 			}
 		}
 	}
@@ -282,6 +284,7 @@ public class ScriptingHelperPortlet extends MVCPortlet {
 				ScriptingUtil.eval(null, portletObjects, null, language, script);
 				unsyncPrintWriter.flush();
 				actionResponse.setRenderParameter("script_output", unsyncByteArrayOutputStream.toString());
+
 			} else if ("save".equals(cmd)) {
 				String newscriptname = (String) actionRequest.getAttribute("newscriptname");
 				if (newscriptname == null || newscriptname.trim().length() == 0) {
@@ -295,6 +298,7 @@ public class ScriptingHelperPortlet extends MVCPortlet {
 				prefs.setValue("savedscript." + newscriptname.trim(), script);
 				prefs.setValue("lang." + newscriptname.trim(), language);
 				prefs.store();
+
 			} else if ("saveinto".equals(cmd)) {
 				String scriptname = (String) actionRequest.getAttribute("savedscript");
 				if (scriptname == null) {
@@ -308,6 +312,7 @@ public class ScriptingHelperPortlet extends MVCPortlet {
 				prefs.setValue("savedscript." + scriptname, script);
 				prefs.setValue("lang." + scriptname, language);
 				prefs.store();
+
 			} else if ("loadfrom".equals(cmd)) {
 				String scriptname = (String) actionRequest.getAttribute("savedscript");
 				if (scriptname == null) {
@@ -321,6 +326,7 @@ public class ScriptingHelperPortlet extends MVCPortlet {
 				script = prefs.getValue("savedscript." + scriptname, StringPool.BLANK);
 				actionResponse.setRenderParameter("language", language);
 				actionResponse.setRenderParameter("script", script);
+
 			} else if ("delete".equals(cmd)) {
 				String scriptname = (String) actionRequest.getAttribute("savedscript");
 				if (scriptname == null) {
@@ -333,6 +339,7 @@ public class ScriptingHelperPortlet extends MVCPortlet {
 				prefs.reset("savedscript." + scriptname);
 				prefs.reset("lang." + scriptname);
 				prefs.store();
+
 			} else if ("import".equals(cmd)) {
 				if (fileUploaded == null) {
 					actionResponse.setRenderParameter("script_trace", "No file was uploaded for import!");
@@ -341,9 +348,9 @@ public class ScriptingHelperPortlet extends MVCPortlet {
 				}
 
 				StringBuilder output = new StringBuilder();
-
 				InputStream instream = fileUploaded.getInputStream();
 				ZipInputStream zipstream = null;
+
 				try {
 					zipstream = new ZipInputStream(instream);
 					ZipEntry entry = zipstream.getNextEntry();
@@ -372,7 +379,7 @@ public class ScriptingHelperPortlet extends MVCPortlet {
 						}
 
 						String lang = resolveLanguage(ext);
-						String imscript = getStreamAsString(zipstream, StandardCharsets.UTF_8.name(), false);
+						String imscript = getStreamAsString(zipstream, StandardCharsets.UTF_8, false);
 
 						if (imscript != null && imscript.length() > 0) {
 							_log.info("Importing script \"" + filename + "\" of type " + lang);
@@ -417,7 +424,7 @@ public class ScriptingHelperPortlet extends MVCPortlet {
 		}
 	}
 
-	private static String getStreamAsString(InputStream is, String encoding, boolean closeStream) throws IOException {
+	private static String getStreamAsString(InputStream is, Charset encoding, boolean closeStream) throws IOException {
 		try {
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			byte[] buf = new byte[4096];
@@ -429,7 +436,7 @@ public class ScriptingHelperPortlet extends MVCPortlet {
 			if (encoding == null) {
 				return new String(baos.toByteArray());
 			} else {
-				return new String(baos.toByteArray(), Charset.forName(encoding));
+				return new String(baos.toByteArray(), encoding);
 			}
 		} finally {
 			if (closeStream) {
